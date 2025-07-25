@@ -7,4 +7,3 @@ from api.serializers.devilfruit import DevilFruitSerializer
 class DevilFruitViewSet(viewsets.ModelViewSet):
     queryset = DevilFruit.objects.all()
     serializer_class = DevilFruitSerializer
-    permission_classes = [IsAuthenticated]

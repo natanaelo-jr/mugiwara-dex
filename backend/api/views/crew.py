@@ -7,4 +7,3 @@ from api.serializers.crew import CrewSerializer
 class CrewViewSet(viewsets.ModelViewSet):
     queryset = Crew.objects.all()
     serializer_class = CrewSerializer
-    permission_classes = [IsAuthenticated]

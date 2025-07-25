@@ -4,12 +4,15 @@ from django.db import models
 class Character(models.Model):
     name = models.CharField(max_length=100)
     age = models.PositiveIntegerField()
-    devil_fruit = models.CharField(max_length=100, blank=True, null=True)
+    devilfruit = models.OneToOneField(
+        "api.DevilFruit", on_delete=models.SET_NULL, null=True
+    )
     observation_haki = models.BooleanField(default=False)
     armament_haki = models.BooleanField(default=False)
     conqueror_haki = models.BooleanField(default=False)
 
     img_url = models.URLField(blank=True, null=True)
+    portrait_url = models.URLField(blank=True, null=True)
 
     class Meta:
         abstract = True
