@@ -7,6 +7,7 @@ from api.serializers.character import (
     CharacterUnionSerializer,
 )
 from rest_framework.response import Response
+from rest_framework.generics import ListAPIView
 
 
 class PirateViewSet(viewsets.ModelViewSet):
@@ -19,20 +20,14 @@ class MarineViewSet(viewsets.ModelViewSet):
     serializer_class = MarineSerializer
 
 
-class CharacterViewSet(viewsets.ViewSet):
+class CharacterListView(ListAPIView):
     serializer_class = CharacterUnionSerializer
 
-    def list(self, request):
-
+    def get_queryset(self):
         pirates = list(Pirate.objects.all())
         marines = list(Marine.objects.all())
-
         for pirate in pirates:
             pirate.type = "pirate"
-
         for marine in marines:
             marine.type = "marine"
-
-        all_characters = pirates + marines
-        serializer = self.serializer_class(all_characters, many=True)
-        return Response(serializer.data)
+        return pirates + marines

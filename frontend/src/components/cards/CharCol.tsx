@@ -3,16 +3,17 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import Animation from "../Anims";
 import Card from "./Card";
+import { Character } from "@/lib/types/characters";
 
-const imgurl =
-  "https://static.wikia.nocookie.net/onepiece/images/a/a9/Monkey_D._Luffy_Portrait.png/revision/latest/";
-const name = "Monkey D. Luffy";
+interface Props {
+  characters: Character[];
+}
 
-const CharCol: React.FC = () => {
+const CharCol: React.FC<Props> = ({ characters }) => {
   return (
     <div className="h-full gap-4 w-full flex flex-col pt-2 items-center">
       <Animation animation="shake">
-        <Link href="/login/">
+        <Link href="/personagens/">
           <Button variant="inv" className="text-2xl">
             Personagens
           </Button>
@@ -28,12 +29,13 @@ const CharCol: React.FC = () => {
                 dark:[&::-webkit-scrollbar-track]:bg-neutral-700
                 dark:[&::-webkit-scrollbar-thumb]:bg-neutral-500"
       >
-        <Card imgurl={imgurl} text={name} destination="" />
-        <Card imgurl={imgurl} text={name} destination="" />
-        <Card imgurl={imgurl} text={name} destination="" />
-        <Card imgurl={imgurl} text={name} destination="" />
-        <Card imgurl={imgurl} text={name} destination="" />
-        <Card imgurl={imgurl} text={name} destination="" />
+        {characters.map((c) => (
+          <Card
+            imgurl={c.portrait_url}
+            text={c.name}
+            destination={`${c.type}/${c.id}`}
+          />
+        ))}
       </div>
     </div>
   );

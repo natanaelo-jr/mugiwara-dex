@@ -108,6 +108,13 @@ class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        try:
+            refresh_token = request.COOKIES.get("refresh_token")
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+        except Exception as e:
+            return Response({"error": "Invalid refresh token"}, status=400)
+
         response = Response({"message": "Logged out"}, status=200)
         response.delete_cookie("refresh_token", path="/api/auth/refresh/")
         response.delete_cookie("access_token", path="/")

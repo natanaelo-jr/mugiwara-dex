@@ -1,5 +1,5 @@
 import api from "@/lib/api";
-import { AxiosResponse } from "axios";
+import { Axios, AxiosResponse } from "axios";
 import { useAuthStore } from "@/store/auth";
 import { LoginData } from "@/lib/types/auth";
 
@@ -8,11 +8,14 @@ export async function refreshToken() {
   const res = await api
     .post("api/auth/refresh/")
     .then(function response(response) {
+      useAuthStore.setState({ isLoading: false });
       console.log(response);
     })
     .catch(function (e) {
       console.error(e);
     });
+
+  useAuthStore.setState({ isLoading: false });
   return res;
 }
 
@@ -65,8 +68,40 @@ export async function verifyLogin(): Promise<void> {
   useAuthStore.setState({ isLoading: true });
   const mestatus = await fetchUser();
   if (mestatus === 200) {
+    useAuthStore.setState({ isLoading: false });
     return;
   }
   await refreshToken();
   await fetchUser();
+  useAuthStore.setState({ isLoading: false });
+  console.log(useAuthStore.getState());
+}
+
+export async function logOut() {
+  console.log("Deslogando");
+  const isAuthenticated = useAuthStore.getState().isAuthenticated;
+  if (!isAuthenticated) {
+    useAuthStore.setState({
+      isLoading: false,
+      isAuthenticated: false,
+      user: null,
+    });
+    return;
+  }
+  await api
+    .post("api/auth/logout/")
+    .then(function response(r) {
+      window.location.reload();
+      useAuthStore.setState({
+        isLoading: false,
+        isAuthenticated: false,
+        user: null,
+      });
+      console.log(r);
+    })
+    .catch(function error(e) {
+      console.log(e);
+    });
+  window.location.reload();
+  return;
 }

@@ -14,6 +14,9 @@ class Character(models.Model):
     img_url = models.URLField(blank=True, null=True)
     portrait_url = models.URLField(blank=True, null=True)
 
+    description = models.TextField(blank=True, null=True)
+    history = models.TextField(blank=True, null=True)
+
     class Meta:
         abstract = True
 
