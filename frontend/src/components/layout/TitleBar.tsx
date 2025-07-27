@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Animation from "../Anims";
 import { Button } from "../ui/button";
+import { useAuthStore } from "@/store/auth";
 
 const TitleBar: React.FC = () => {
   return (

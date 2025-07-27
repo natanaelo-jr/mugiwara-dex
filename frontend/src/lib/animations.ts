@@ -1,9 +1,10 @@
 export const animationVariants = {
   shakeOnHover: {
-    initial: {
+    init: {
       scale: 1,
       rotate: 0,
     },
+    anim: { rotate: 0, scale: 1 },
     hover: {
       scale: 1.1,
       rotate: [0, 10, -10, 10, 0],

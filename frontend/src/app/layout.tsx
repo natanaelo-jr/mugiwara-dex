@@ -38,7 +38,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${bebas_neue.variable} ${opfont.variable} antialiased w-full h-full flex flex-col`}
+        className={`${inter.variable} ${bebas_neue.variable} ${opfont.variable} antialiased w-screen h-screen flex flex-col`}
       >
         {children}
       </body>

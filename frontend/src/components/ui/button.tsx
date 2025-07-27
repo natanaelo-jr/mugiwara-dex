@@ -10,7 +10,7 @@ const buttonVariants = cva(
     variants: {
       variant: {
         default: "bg-brown text-beige hover:brightness-125",
-        inv: "",
+        inv: "hover:brightness-125 text-brown",
         blue: "bg-blue-600 text-zinc-50 hover:brightness-125",
       },
       size: {

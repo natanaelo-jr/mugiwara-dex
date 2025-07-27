@@ -1,8 +1,8 @@
 "use client";
 import { useEffect } from "react";
-import { verifyLogin, login } from "@/features/auth";
+import { verifyLogin } from "@/features/auth";
 import TitleBar from "@/components/layout/TitleBar";
-import { Input } from "@/components/ui/input";
+import CardTable from "@/components/cards/CardTable";
 
 export default function Home() {
   const imgurl =
@@ -11,12 +11,10 @@ export default function Home() {
     verifyLogin();
   });
   return (
-    <div className="w-full h-full flex flex-1 flex-col">
+    <div className="w-full h-full flex flex-col">
       <TitleBar />
-      <div className="w-full h-full flex items-center justify-center">
-        <div className="p-4 bg-beige-dark">
-          <Input placeholder="placeholder" variant="default"></Input>
-        </div>
+      <div className="w-full flex-1 min-h-0 max-h-screen flex flex-col items-center">
+        <CardTable />
       </div>
     </div>
   );

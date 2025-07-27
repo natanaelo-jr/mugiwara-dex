@@ -1,3 +1,4 @@
+"use client";
 import { motion, Variants } from "framer-motion";
 
 const animations: Record<string, Variants> = {
