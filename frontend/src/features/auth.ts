@@ -1,4 +1,5 @@
 import api from "@/lib/api";
+import { AxiosResponse } from "axios";
 import { useAuthStore } from "@/store/auth";
 import { LoginData } from "@/lib/types/auth";
 
@@ -32,11 +33,12 @@ export async function fetchUser() {
     .catch(function (e) {
       console.error(e);
     });
-
   return res;
 }
 
-export async function login(data: LoginData) {
+export async function login(
+  data: LoginData,
+): Promise<AxiosResponse<any> | void> {
   console.log("Login:");
   useAuthStore.setState({ isLoading: true, error: null });
   const res = await api
@@ -47,13 +49,14 @@ export async function login(data: LoginData) {
         isLoading: false,
         isAuthenticated: true,
       });
-      console.log(useAuthStore.getState());
-      console.log(response);
+      console.log("retornando", response);
+      return response;
     })
     .catch(function (e) {
       useAuthStore.setState({ isLoading: false, error: e.message });
       console.log(useAuthStore.getState());
       console.error(e);
+      throw e;
     });
   return res;
 }

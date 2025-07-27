@@ -2,6 +2,7 @@
 import { useEffect } from "react";
 import { verifyLogin, login } from "@/features/auth";
 import TitleBar from "@/components/layout/TitleBar";
+import { Input } from "@/components/ui/input";
 
 export default function Home() {
   const imgurl =
@@ -12,6 +13,11 @@ export default function Home() {
   return (
     <div className="w-full h-full flex flex-1 flex-col">
       <TitleBar />
+      <div className="w-full h-full flex items-center justify-center">
+        <div className="p-4 bg-beige-dark">
+          <Input placeholder="placeholder" variant="default"></Input>
+        </div>
+      </div>
     </div>
   );
 }

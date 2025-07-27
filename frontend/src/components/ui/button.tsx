@@ -5,17 +5,18 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex hover:cursor-pointer font-pirate font-semibold font-bold items-center justify-center gap-2 whitespace-nowrap rounded-md transition",
+  "inline-flex hover:cursor-pointer font-pirate font-semibold duration-300 font-bold items-center justify-center gap-2 whitespace-nowrap rounded-md transition",
   {
     variants: {
       variant: {
         default: "bg-brown text-beige hover:brightness-125",
         inv: "",
+        blue: "bg-blue-600 text-zinc-50 hover:brightness-125",
       },
       size: {
         default: "text-lg px-4 py-1",
-        sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
-        lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
+        sm: "px-3 py-1 text-sm",
+        lg: "text-xl px-6 py-2",
         icon: "size-9",
       },
     },
