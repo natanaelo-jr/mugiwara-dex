@@ -20,7 +20,7 @@ const Card: React.FC<cardProps> = ({ imgurl, text, destination }) => {
             <Image
               src={imgurl}
               alt=""
-              className="w-max-40 h-max-40 rounded-sm"
+              className="w-max-40 object-cover h-max-40 rounded-sm"
               loading="eager"
               fill
             />

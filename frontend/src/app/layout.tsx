@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Bebas_Neue } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
+import { QueryProvider } from "./providers/queryProvider";
 
 // Fontes com CSS variables
 const inter = Inter({
@@ -30,6 +31,7 @@ export const metadata = {
     shortcut: "/favicon/icon0.svg", // se quiser um SVG como atalho
   },
 };
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -40,7 +42,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${bebas_neue.variable} ${opfont.variable} antialiased w-screen h-screen flex flex-col`}
       >
-        {children}
+        <QueryProvider>{children}</QueryProvider>
       </body>
     </html>
   );

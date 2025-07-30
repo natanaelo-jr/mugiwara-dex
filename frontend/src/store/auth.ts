@@ -12,7 +12,7 @@ interface AuthState {
 export const useAuthStore = create<AuthState>((s) => ({
   isAuthenticated: false,
   user: null,
-  isLoading: true,
+  isLoading: false,
   setState: (partial) => s(partial),
   error: null,
 }));

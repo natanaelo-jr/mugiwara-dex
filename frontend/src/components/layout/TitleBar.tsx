@@ -2,10 +2,11 @@ import Link from "next/link";
 import Animation from "../Anims";
 import { Button } from "../ui/button";
 import { useAuthStore } from "@/store/auth";
-import { useEffect } from "react";
 import { logOut, verifyLogin } from "@/features/auth";
+import { useEffect } from "react";
 import { Settings } from "lucide-react";
 import { useRouter } from "next/navigation";
+
 const TitleBar: React.FC = () => {
   const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const isLoading = useAuthStore((s) => s.isLoading);

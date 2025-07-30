@@ -23,7 +23,6 @@ const LoginForm: React.FC = () => {
   });
 
   const router = useRouter();
-
   const [serverError, setServerError] = useState<string>("");
   const isLoading = useAuthStore((state) => state.isLoading);
 
@@ -31,16 +30,14 @@ const LoginForm: React.FC = () => {
     try {
       setServerError("");
       const res = await login(data);
-      console.log("from", res);
       if (res && res.status == 200) {
-        console.log("oii");
         router.push("/");
       }
     } catch (err: any) {
       if (err.response?.status === 401) {
         setServerError("Login ou senha inválidos.");
       } else {
-        setServerError("Erro interno. Tente novamente mais tarde.");
+        setServerError("Erro interno.");
       }
     }
   };
