@@ -12,6 +12,7 @@ const inputVariants = cva(
         blue: "placeholder:text-zinc-50/50 focus:text-zinc-50 text-zinc-50",
         zinc: "border-zinc-600 text-zinc-900 focus:border-zinc-900",
         error: "border-red-500 text-red-500",
+        inv: "shadow-none text-zinc-900 focus:text-zinc-900 placeholder:text-zinc-600",
       },
     },
     defaultVariants: {

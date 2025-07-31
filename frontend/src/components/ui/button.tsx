@@ -5,13 +5,17 @@ import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex hover:cursor-pointer font-pirate font-semibold duration-300 font-bold items-center justify-center gap-2 whitespace-nowrap rounded-md transition",
+  "flex leading-none uppercase font-semibold hover:cursor-pointer font-pirate duration-300 font-bold items-center justify-center whitespace-nowrap rounded-md transition",
   {
     variants: {
       variant: {
         default: "bg-brown text-beige hover:brightness-125",
         inv: "hover:brightness-125 text-brown",
         blue: "bg-blue-600 text-zinc-50 hover:brightness-125",
+        pagination:
+          "text-zinc-800 hover:text-purple-900 font-oswald uppercase text-sm",
+        paginationActive:
+          "text-zinc-950 hover:cursor-not-allowed font-oswald uppercase text-sm",
       },
       size: {
         default: "text-lg px-4 py-1",
