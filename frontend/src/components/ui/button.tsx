@@ -16,6 +16,10 @@ const buttonVariants = cva(
           "text-zinc-800 hover:text-purple-900 font-oswald uppercase text-sm",
         paginationActive:
           "text-zinc-950 hover:cursor-not-allowed font-oswald uppercase text-sm",
+        cancel: "text-zinc-800 hover:bg-zinc-400",
+        submit:
+          "bg-purple-950 text-zinc-200 hover:brightness-125 hover:bg-blue-800",
+        combo: "font-op text-zinc-800 shadow-md normal-case font-normal",
       },
       size: {
         default: "text-lg px-4 py-1",

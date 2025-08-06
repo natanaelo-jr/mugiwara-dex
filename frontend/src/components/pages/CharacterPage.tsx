@@ -8,14 +8,17 @@ import { fetchCharPage } from "@/features/characterContent";
 
 const CharacterPage: React.FC = ({}) => {
   const [loading, setLoading] = useState(false);
+  const [baseCharacters, setBaseCharacters] = useState<Character[]>([]);
   const [characters, setCharacters] = useState<Character[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [filter, setFilter] = useState<string | null>(null);
 
   useEffect(() => {
     fetchCharPage(page, 10)
       .then((response) => {
         setCharacters(response.results);
+        setBaseCharacters(response.results);
         setTotalPages(response.total_pages);
       })
       .catch((error) => console.error(error))
@@ -24,9 +27,34 @@ const CharacterPage: React.FC = ({}) => {
       });
   }, [page]);
 
+  useEffect(() => {
+    if (filter && filter != "") {
+      setCharacters(
+        characters.filter((c) => {
+          c.name.toLowerCase().includes(filter.toLowerCase());
+        }),
+      );
+      fetchCharPage(1, 10, filter)
+        .then((response) => {
+          setCharacters(response.results);
+          setTotalPages(response.total_pages);
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }
+    if (filter === "") {
+      setCharacters(baseCharacters);
+    }
+  }, [filter]);
+
   return (
     <div className="flex  px-4 w-full h-full bg-zinc-400/60 rounded-sm gap-4 flex-col">
-      <CardListBar />
+      <CardListBar
+        onFilterChange={(filter) => {
+          setFilter(filter);
+        }}
+      />
       {loading && (
         <div className="w-full h-full flex items-center justify-center">
           <span>

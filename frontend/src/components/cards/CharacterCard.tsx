@@ -16,7 +16,7 @@ const CharacterCard: React.FC<Props> = ({ character }) => {
         <div className="flex justify-center">
           <div className="bg-zinc-200 w-fit border-zinc-400 flex flex-col items-center border rounded p-4 hover:cursor-pointer hover:bg-zinc-100 transition duration-300">
             <div className="w-32 h-32 relative">
-              <span className="absolute right-0 top-0 z-10">
+              <span className="absolute right-0 bottom-0 bg-zinc-200 p-[2px] rounded-full z-10">
                 {character.type == "pirate" ? (
                   <Pirate className="text-zinc-900" />
                 ) : (
