@@ -22,7 +22,7 @@ class Character(models.Model):
 
 
 class Pirate(Character):
-    bounty = models.PositiveIntegerField()
+    bounty = models.PositiveBigIntegerField()
     crew = models.ForeignKey(
         "api.Crew", on_delete=models.CASCADE, related_name="pirates", null=True
     )
