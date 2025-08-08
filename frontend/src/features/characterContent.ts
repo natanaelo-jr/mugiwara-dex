@@ -1,5 +1,5 @@
 import api from "@/lib/api";
-import { CharacterPage } from "@/lib/types/characters";
+import { CharacterPage, PiratePage } from "@/lib/types/characters";
 
 export async function fetchCharPage(
   page: number = 1,
@@ -12,6 +12,25 @@ export async function fetchCharPage(
   }
   return api
     .get<CharacterPage>(url)
+    .then((response) => {
+      return response.data;
+    })
+    .catch((error) => {
+      throw error;
+    });
+}
+
+export async function fetchPiratePage(
+  page: number = 1,
+  pagesize: number = 10,
+  filter?: string,
+): Promise<PiratePage> {
+  let url = `api/content/pirates/?page=${page}&page_size=${pagesize}`;
+  if (filter) {
+    url += `&search=${filter}`;
+  }
+  return api
+    .get<PiratePage>(url)
     .then((response) => {
       return response.data;
     })

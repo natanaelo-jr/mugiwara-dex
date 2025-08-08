@@ -1,5 +1,5 @@
 import api from "@/lib/api";
-import { Axios, AxiosResponse } from "axios";
+import { AxiosResponse } from "axios";
 import { useAuthStore } from "@/store/auth";
 import { LoginData } from "@/lib/types/auth";
 

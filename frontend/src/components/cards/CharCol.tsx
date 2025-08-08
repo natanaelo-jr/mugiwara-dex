@@ -5,10 +5,13 @@ import Animation from "../Anims";
 import Card from "./Card";
 import { Character } from "@/lib/types/characters";
 import { useRef, useEffect } from "react";
-import { LoaderCircle } from "lucide-react";
+import { LoaderCircle, LucidePlus } from "lucide-react";
 import { useCharactersInfiniteScroll } from "@/features/hooks/infiniteScrolls";
+import CreateCharDialog from "../forms/CreateCharDialog";
+import { useAuthStore } from "@/store/auth";
 
 const CharCol: React.FC = () => {
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const {
     data,
     fetchNextPage,
@@ -50,7 +53,7 @@ const CharCol: React.FC = () => {
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   return (
-    <div className="h-full gap-4 w-full flex flex-col pt-2 items-center">
+    <div className="h-full relative gap-4 w-full flex flex-col pt-2 items-center">
       <Animation animation="shake">
         <Link href="/personagens/">
           <Button variant="inv" className="text-2xl">
@@ -58,6 +61,17 @@ const CharCol: React.FC = () => {
           </Button>
         </Link>
       </Animation>
+      {isAuthenticated && (
+        <div className="absolute right-2">
+          <Animation animation="grow">
+            <CreateCharDialog>
+              <Button variant="inv">
+                <LucidePlus />{" "}
+              </Button>
+            </CreateCharDialog>
+          </Animation>
+        </div>
+      )}
       {/* Fazer o pesquisa aqui */}
       <div
         ref={scrollContainerRef}

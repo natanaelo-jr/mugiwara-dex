@@ -4,10 +4,13 @@ import { Button } from "../ui/button";
 import Animation from "../Anims";
 import Card from "./Card";
 import { useRef, useEffect } from "react";
-import { LoaderCircle } from "lucide-react";
+import { LoaderCircle, LucidePlus } from "lucide-react";
 import { useDevilFruitInfiniteScroll } from "@/features/hooks/infiniteScrolls";
+import CreateFruitDialog from "../forms/CreateFruitDialog";
+import { useAuthStore } from "@/store/auth";
 
 const CharCol: React.FC = () => {
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const {
     data,
     fetchNextPage,
@@ -49,7 +52,7 @@ const CharCol: React.FC = () => {
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   return (
-    <div className="h-full gap-4 w-full flex flex-col pt-2 items-center">
+    <div className="h-full gap-4 w-full flex flex-col pt-2 items-center relative">
       <Animation animation="shake">
         <Link href="/frutas/">
           <Button variant="inv" className="text-2xl">
@@ -57,6 +60,18 @@ const CharCol: React.FC = () => {
           </Button>
         </Link>
       </Animation>
+      {isAuthenticated && (
+        <div className="absolute right-2">
+          <Animation animation="grow">
+            <CreateFruitDialog>
+              <Button variant="inv">
+                <LucidePlus />
+              </Button>
+            </CreateFruitDialog>
+          </Animation>
+        </div>
+      )}
+
       {/* Fazer o pesquisa aqui */}
       <div
         ref={scrollContainerRef}

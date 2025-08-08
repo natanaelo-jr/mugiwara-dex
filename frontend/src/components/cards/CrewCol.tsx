@@ -4,10 +4,13 @@ import { Button } from "../ui/button";
 import Animation from "../Anims";
 import Card from "./Card";
 import { useEffect, useRef } from "react";
-import { LoaderCircle } from "lucide-react";
+import { LoaderCircle, LucidePlus } from "lucide-react";
 import { useCrewInfiniteScroll } from "@/features/hooks/infiniteScrolls";
+import { useAuthStore } from "@/store/auth";
+import CreateCrewDialog from "../forms/CreateCrewDialog";
 
 const CrewCol: React.FC = () => {
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const {
     data,
     fetchNextPage,
@@ -49,7 +52,7 @@ const CrewCol: React.FC = () => {
   }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   return (
-    <div className="h-full gap-4 w-full flex flex-col pt-2 items-center">
+    <div className="h-full relative gap-4 w-full flex flex-col pt-2 items-center">
       <Animation animation="shake">
         <Link href="/tripulacoes/">
           <Button variant="inv" className="text-2xl">
@@ -57,6 +60,18 @@ const CrewCol: React.FC = () => {
           </Button>
         </Link>
       </Animation>
+      {isAuthenticated && (
+        <div className="absolute right-2">
+          <Animation animation="grow">
+            <CreateCrewDialog>
+              <Button variant="inv">
+                <LucidePlus />
+              </Button>
+            </CreateCrewDialog>
+          </Animation>
+        </div>
+      )}
+
       {/* Fazer o pesquisa aqui */}
       <div
         ref={scrollContainerRef}

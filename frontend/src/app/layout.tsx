@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Bebas_Neue, Oswald } from "next/font/google";
+import { Toaster } from "sonner";
 import localFont from "next/font/local";
 import "./globals.css";
 import { QueryProvider } from "./providers/queryProvider";
@@ -49,6 +50,7 @@ export default function RootLayout({
         className={`${inter.variable} ${oswald.variable} ${bebas_neue.variable} ${opfont.variable} antialiased w-screen h-screen flex flex-col`}
       >
         <QueryProvider>{children}</QueryProvider>
+        <Toaster />
       </body>
     </html>
   );

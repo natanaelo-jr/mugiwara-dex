@@ -1,8 +1,6 @@
 import CharCol from "./CharCol";
-import { testChar } from "@/lib/types/tests/characters";
 import CrewCol from "./CrewCol";
 import FruitsCol from "./FruitsCol";
-const chars = [testChar, testChar, testChar, testChar];
 
 const CardTable: React.FC = () => {
   return (
