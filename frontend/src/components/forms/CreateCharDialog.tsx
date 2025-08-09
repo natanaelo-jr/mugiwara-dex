@@ -2,6 +2,7 @@
 
 import { toast } from "sonner";
 import { Eye, Sword, Crown } from "lucide-react";
+import { useAuthStore } from "@/store/auth";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -44,6 +45,7 @@ interface Props {
 }
 
 const CreateCharDialog: React.FC<Props> = ({ children }) => {
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const [typePirate, toggleTypePirate] = useState(true);
   const toggleType = () => toggleTypePirate(!typePirate);
   const [portraitFile, setPortraitFile] = useState<File | null>(null);
@@ -122,6 +124,11 @@ const CreateCharDialog: React.FC<Props> = ({ children }) => {
   }, []);
 
   const onSubmit = async (data: pirateData | marineData) => {
+    await verifyLogin();
+    if (!isAuthenticated) {
+      toast.error("Você precisa estar logado para criar um personagem.");
+      return;
+    }
     const payload = { ...data };
     if (portraitFile) {
       const portraitResponse = await uploadImage(

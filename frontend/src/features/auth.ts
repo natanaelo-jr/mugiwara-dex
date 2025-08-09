@@ -1,5 +1,4 @@
 import api from "@/lib/api";
-import { AxiosResponse } from "axios";
 import { useAuthStore } from "@/store/auth";
 import { LoginData } from "@/lib/types/auth";
 
@@ -7,9 +6,8 @@ export async function refreshToken() {
   useAuthStore.setState({ isLoading: true });
   const res = await api
     .post("api/auth/refresh/")
-    .then(function response(response) {
+    .then(function response() {
       useAuthStore.setState({ isLoading: false });
-      console.log(response);
     })
     .catch(function (e) {
       console.error(e);
@@ -20,7 +18,6 @@ export async function refreshToken() {
 }
 
 export async function fetchUser() {
-  console.log("Fetch user:");
   useAuthStore.setState({ isLoading: true });
   const res = await api
     .get("api/auth/me/")
@@ -30,8 +27,7 @@ export async function fetchUser() {
         isAuthenticated: true,
         user: response.data,
       });
-      console.log(useAuthStore.getState());
-      return response.status;
+      return response;
     })
     .catch(function (e) {
       console.error(e);
@@ -39,9 +35,7 @@ export async function fetchUser() {
   return res;
 }
 
-export async function login(
-  data: LoginData,
-): Promise<AxiosResponse<any> | void> {
+export async function login(data: LoginData) {
   console.log("Login:");
   useAuthStore.setState({ isLoading: true, error: null });
   const res = await api
@@ -52,12 +46,10 @@ export async function login(
         isLoading: false,
         isAuthenticated: true,
       });
-      console.log("retornando", response);
       return response;
     })
     .catch(function (e) {
       useAuthStore.setState({ isLoading: false, error: e.message });
-      console.log(useAuthStore.getState());
       console.error(e);
       throw e;
     });
@@ -66,19 +58,17 @@ export async function login(
 
 export async function verifyLogin(): Promise<void> {
   useAuthStore.setState({ isLoading: true });
-  const mestatus = await fetchUser();
-  if (mestatus === 200) {
+  const response = await fetchUser();
+  if (response && response.status === 200) {
     useAuthStore.setState({ isLoading: false });
     return;
   }
   await refreshToken();
   await fetchUser();
   useAuthStore.setState({ isLoading: false });
-  console.log(useAuthStore.getState());
 }
 
 export async function logOut() {
-  console.log("Deslogando");
   const isAuthenticated = useAuthStore.getState().isAuthenticated;
   if (!isAuthenticated) {
     useAuthStore.setState({
@@ -90,18 +80,18 @@ export async function logOut() {
   }
   await api
     .post("api/auth/logout/")
-    .then(function response(r) {
+    .then(function response() {
       window.location.reload();
       useAuthStore.setState({
         isLoading: false,
         isAuthenticated: false,
         user: null,
       });
-      console.log(r);
     })
     .catch(function error(e) {
-      console.log(e);
+      console.error("Error logging out:", e);
     });
+
   window.location.reload();
   return;
 }

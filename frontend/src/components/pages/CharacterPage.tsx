@@ -5,54 +5,62 @@ import CharacterCard from "../cards/CharacterCard";
 import { LoaderCircle } from "lucide-react";
 import { useEffect, useState } from "react";
 import { fetchCharPage } from "@/features/characterContent";
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
 
-const CharacterPage: React.FC = ({}) => {
+const CharacterPage: React.FC = () => {
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const router = useRouter();
+
   const [loading, setLoading] = useState(false);
-  const [baseCharacters, setBaseCharacters] = useState<Character[]>([]);
   const [characters, setCharacters] = useState<Character[]>([]);
-  const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [filter, setFilter] = useState<string | null>(null);
+
+  const page = Number(searchParams.get("page")) || 1;
+  const filter = searchParams.get("filter") || "";
 
   useEffect(() => {
-    fetchCharPage(page, 10)
+    const controller = new AbortController();
+    const { signal } = controller;
+    setLoading(true);
+
+    fetchCharPage(page, 10, filter, signal)
       .then((response) => {
         setCharacters(response.results);
-        setBaseCharacters(response.results);
         setTotalPages(response.total_pages);
       })
       .catch((error) => console.error(error))
       .finally(() => {
         setLoading(false);
       });
-  }, [page]);
 
-  useEffect(() => {
-    if (filter && filter != "") {
-      setCharacters(
-        characters.filter((c) => {
-          c.name.toLowerCase().includes(filter.toLowerCase());
-        }),
-      );
-      fetchCharPage(1, 10, filter)
-        .then((response) => {
-          setCharacters(response.results);
-          setTotalPages(response.total_pages);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+    return () => {
+      controller.abort();
+    };
+  }, [page, filter]);
+
+  const createFilter = (newFilter: string) => {
+    const params = new URLSearchParams(searchParams.toString());
+    if (!newFilter) {
+      params.delete("filter");
+      params.delete("page");
+      return `${pathname}?${params.toString()}`;
     }
-    if (filter === "") {
-      setCharacters(baseCharacters);
-    }
-  }, [filter]);
+
+    params.set("filter", newFilter);
+    params.set("page", "1");
+    return `${pathname}?${params.toString()}`;
+  };
+
+  const handleFilterChange = (newFilter: string) => {
+    router.push(createFilter(newFilter));
+  };
 
   return (
     <div className="flex  px-4 w-full h-full bg-zinc-400/60 rounded-sm gap-4 flex-col">
       <CardListBar
         onFilterChange={(filter) => {
-          setFilter(filter);
+          handleFilterChange(filter);
         }}
       />
       {loading && (
@@ -73,15 +81,7 @@ const CharacterPage: React.FC = ({}) => {
           )}
         </div>
       )}
-      {totalPages != 0 && (
-        <PaginationComponent
-          current={page}
-          total={totalPages}
-          onChange={(page) => {
-            console.log(page);
-          }}
-        />
-      )}
+      {totalPages != 0 && <PaginationComponent total={totalPages} />}
     </div>
   );
 };
