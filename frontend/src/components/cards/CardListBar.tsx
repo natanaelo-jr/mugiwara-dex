@@ -1,15 +1,17 @@
-import { ListFilter, LucidePlus, Search } from "lucide-react";
+import { ListFilter, Search } from "lucide-react";
 import { Button } from "../ui/button";
 import BackButton from "../buttons/BackButton";
 import { Input } from "../ui/input";
-import CreateCharDialog from "../forms/CreateCharDialog";
 
 interface CardListProps {
   onFilterChange: (filter: string) => void;
+  addDialog?: React.ReactNode;
 }
-const CardListBar: React.FC<CardListProps> = ({ onFilterChange }) => {
+const CardListBar: React.FC<CardListProps> = ({
+  onFilterChange,
+  addDialog,
+}) => {
   const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target.value);
     onFilterChange(e.target.value);
   };
   return (
@@ -23,11 +25,11 @@ const CardListBar: React.FC<CardListProps> = ({ onFilterChange }) => {
           <Search className="pl-2" />
           <Input
             variant="inv"
-            placeholder="Filtrar"
+            placeholder="Pesquisar..."
             onChange={handleFilterChange}
           />
         </div>
-        <CreateCharDialog></CreateCharDialog>
+        {addDialog}
       </div>
     </div>
   );

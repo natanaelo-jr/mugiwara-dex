@@ -1,17 +1,21 @@
 import api from "@/lib/api";
-import { Crew, CrewPage } from "@/lib/types/crews";
+import { CrewPage } from "@/lib/types/crews";
 
 export async function fetchCrewPage(
   page: number,
   pagesize: number,
   filter?: string,
+  signal?: AbortSignal,
 ) {
-  let url = `api/content/crews/?page=${page}&page_size=${pagesize}`;
+  const params = new URLSearchParams();
+  params.append("page", page.toString());
+  params.append("page_size", pagesize.toString());
   if (filter) {
-    `api/content/crews/?search=${filter}&page=${page}&page_size=${pagesize}`;
+    params.append("search", filter);
   }
+  const url = `api/content/crews/?${params.toString()}`;
   return api
-    .get<CrewPage>(url)
+    .get<CrewPage>(url, { signal })
     .then((response) => {
       return response.data;
     })

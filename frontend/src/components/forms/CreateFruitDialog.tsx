@@ -24,6 +24,8 @@ import api from "@/lib/api";
 import { uploadImage } from "@/features/imageContent";
 import { toast } from "sonner";
 import { verifyLogin } from "@/features/auth";
+import ToLoginDialog from "./toLoginDialog";
+import { useAuthStore } from "@/store/auth";
 
 type FruitData = z.infer<typeof DevilfruitSchema>;
 
@@ -32,6 +34,7 @@ interface Props {
 }
 
 const CreateFruitDialog: React.FC<Props> = ({ children }) => {
+  const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState<File | null>(null);
   const {
@@ -89,13 +92,19 @@ const CreateFruitDialog: React.FC<Props> = ({ children }) => {
     }
   }, [errors]);
 
+  if (!isAuthenticated) {
+    return <ToLoginDialog />;
+  }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         {children ? (
           children
         ) : (
-          <Button>
+          <Button
+            className="w-10 p-0 h-10 bg-zinc-300 rounded-sm text-zinc-800 hover:text-purple-800 hover:bg-zinc-800"
+            variant="blue"
+          >
             <Plus></Plus>
           </Button>
         )}

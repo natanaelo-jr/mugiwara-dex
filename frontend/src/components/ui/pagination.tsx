@@ -81,7 +81,7 @@ function PaginationPrevious({
       >
         <ChevronLeftIcon />
         <span className="hidden font-oswald uppercase text-sm sm:block">
-          Previous
+          Anterior
         </span>
       </PaginationLink>
     )
@@ -102,7 +102,7 @@ function PaginationNext({
         {...props}
       >
         <span className="hidden font-oswald text-sm uppercase sm:block">
-          Next
+          Próximo
         </span>
         <ChevronRightIcon />
       </PaginationLink>

@@ -79,19 +79,18 @@ export async function logOut() {
     return;
   }
   await api
-    .post("api/auth/logout/")
+    .post("/api/auth/logout/")
     .then(function response() {
-      window.location.reload();
       useAuthStore.setState({
         isLoading: false,
         isAuthenticated: false,
         user: null,
       });
+      window.location.reload();
     })
     .catch(function error(e) {
       console.error("Error logging out:", e);
     });
 
-  window.location.reload();
   return;
 }

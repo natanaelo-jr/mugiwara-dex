@@ -41,7 +41,7 @@ class LoginView(APIView):
             httponly=True,
             secure=False,  # ✅ em produção: True com HTTPS
             samesite="Lax",
-            path="/api/auth/refresh/",
+            path="/",
         )
 
         # Access Token Cookie
@@ -80,6 +80,7 @@ class CookieTokenRefreshView(APIView):
                 samesite="Lax",
                 secure=False,
                 max_age=5 * 60,
+                path="/",
             )
             res.set_cookie(
                 "refresh_token",
@@ -88,6 +89,7 @@ class CookieTokenRefreshView(APIView):
                 samesite="Lax",
                 secure=False,
                 max_age=7 * 24 * 60 * 60,
+                path="/",
             )
             return res
         except Exception as e:
@@ -110,12 +112,18 @@ class LogoutView(APIView):
     def post(self, request):
         try:
             refresh_token = request.COOKIES.get("refresh_token")
+            if not refresh_token:
+                print("No refresh token found in cookies.")
+                return Response({"error": "Refresh token not found."}, status=400)
+
             token = RefreshToken(refresh_token)
             token.blacklist()
+
         except Exception as e:
+            print(f"Logout error: {e}")
             return Response({"error": "Invalid refresh token"}, status=400)
 
         response = Response({"message": "Logged out"}, status=200)
-        response.delete_cookie("refresh_token", path="/api/auth/refresh/")
+        response.delete_cookie("refresh_token", path="/")
         response.delete_cookie("access_token", path="/")
         return response

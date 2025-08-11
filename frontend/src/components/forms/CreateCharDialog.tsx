@@ -36,6 +36,7 @@ import {
 } from "@/features/hooks/toasts/charErrors";
 import { fetchCrewPage } from "@/features/crewContent";
 import { fetchDevilFruitPage } from "@/features/devilFruitContent";
+import ToLoginDialog from "./toLoginDialog";
 
 type pirateData = z.infer<typeof PirateSchema>;
 type marineData = z.infer<typeof MarineSchema>;
@@ -46,6 +47,7 @@ interface Props {
 
 const CreateCharDialog: React.FC<Props> = ({ children }) => {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated);
+
   const [typePirate, toggleTypePirate] = useState(true);
   const toggleType = () => toggleTypePirate(!typePirate);
   const [portraitFile, setPortraitFile] = useState<File | null>(null);
@@ -119,10 +121,6 @@ const CreateCharDialog: React.FC<Props> = ({ children }) => {
     console.error("Erros de validação do formulário:", errors);
   };
 
-  useEffect(() => {
-    verifyLogin();
-  }, []);
-
   const onSubmit = async (data: pirateData | marineData) => {
     await verifyLogin();
     if (!isAuthenticated) {
@@ -155,7 +153,7 @@ const CreateCharDialog: React.FC<Props> = ({ children }) => {
 
     api
       .post(endpoint, payload)
-      .then((res) => {
+      .then(() => {
         toast.success("Personagem criado com sucesso!");
         setPortraitFile(null);
         setImageFile(null);
@@ -200,6 +198,11 @@ const CreateCharDialog: React.FC<Props> = ({ children }) => {
       />
     </div>
   );
+
+  if (!isAuthenticated) {
+    return <ToLoginDialog>{children}</ToLoginDialog>;
+  }
+
   return (
     <div>
       <Dialog open={open} onOpenChange={setOpen}>

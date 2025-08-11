@@ -24,6 +24,7 @@ import { verifyLogin } from "@/features/auth";
 import { z } from "zod";
 import { useAuthStore } from "@/store/auth";
 import { fetchPiratePage } from "@/features/characterContent";
+import ToLoginDialog from "./toLoginDialog";
 
 type CrewData = z.infer<typeof CrewSchema>;
 
@@ -91,7 +92,9 @@ const CreateCrewDialog: React.FC<Props> = ({ children }) => {
       },
     );
   };
-
+  if (!isAuthenticated) {
+    return <ToLoginDialog />;
+  }
   return (
     <div>
       <Dialog open={open} onOpenChange={setOpen}>
@@ -99,7 +102,10 @@ const CreateCrewDialog: React.FC<Props> = ({ children }) => {
           {children ? (
             children
           ) : (
-            <Button>
+            <Button
+              className="w-10 p-0 h-10 bg-zinc-300 rounded-sm text-zinc-800 hover:text-purple-800 hover:bg-zinc-800"
+              variant="blue"
+            >
               <Plus></Plus>
             </Button>
           )}
