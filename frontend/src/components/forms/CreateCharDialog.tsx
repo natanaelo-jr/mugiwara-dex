@@ -37,6 +37,7 @@ import {
 import { fetchCrewPage } from "@/features/crewContent";
 import { fetchDevilFruitPage } from "@/features/devilFruitContent";
 import ToLoginDialog from "./toLoginDialog";
+import { Textarea } from "../ui/textarea";
 
 type pirateData = z.infer<typeof PirateSchema>;
 type marineData = z.infer<typeof MarineSchema>;
@@ -506,10 +507,9 @@ const CreateCharDialog: React.FC<Props> = ({ children }) => {
                   <span className="text-xs text-zinc-700 font-semibold pl-3">
                     Descrição
                   </span>
-                  <Input
+                  <Textarea
                     className="h-20 text-xs text-wrap w-full"
-                    variant="insertform"
-                    max="500"
+                    maxLength={500}
                     {...(typePirate
                       ? registerPirate("description")
                       : registerMarine("description"))}
@@ -519,10 +519,9 @@ const CreateCharDialog: React.FC<Props> = ({ children }) => {
                   <span className="text-xs text-zinc-700 font-semibold pl-3">
                     História
                   </span>
-                  <Input
+                  <Textarea
                     className="h-20 text-xs text-wrap w-full"
-                    variant="insertform"
-                    max="500"
+                    maxLength={500}
                     {...(typePirate
                       ? registerPirate("history")
                       : registerMarine("history"))}

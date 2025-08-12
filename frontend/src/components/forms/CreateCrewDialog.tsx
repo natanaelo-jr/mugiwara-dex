@@ -35,7 +35,7 @@ interface Props {
 const CreateCrewDialog: React.FC<Props> = ({ children }) => {
   const [open, setOpen] = useState(false);
   const [image, setImage] = useState<File | null>(null);
-  const { isAuthenticated } = useAuthStore();
+  const isAuthenticated = useAuthStore((s) => s.isAuthenticated);
   const {
     register,
     handleSubmit,

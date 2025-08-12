@@ -28,12 +28,12 @@ export interface Marine {
   observation_haki: boolean;
   armament_haki: boolean;
   conqueror_haki: boolean;
-  img_url: string | null;
-  portrait_url: string | null;
-  description: string | null;
-  history: string | null;
+  img_url: string;
+  portrait_url: string;
+  description: string;
+  history: string;
   position: string;
-  devilfruit?: number | null;
+  devilfruit?: number;
 }
 
 export interface MarinePage {

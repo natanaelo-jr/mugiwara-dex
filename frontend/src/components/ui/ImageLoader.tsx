@@ -124,17 +124,6 @@ const ImageLoader: React.FC<Props> = ({
                     onChange={handleIChange}
                   />
                 </label>
-                {/* <Input */}
-                {/*     variant="inv" */}
-                {/*     placeholder="https://exemplo.com/imagem.jpg" */}
-                {/*     value={ivalue} */}
-                {/*     onChange={(e) => { */}
-                {/*         setErrored(false); */}
-                {/*         onChangeImage(e.target.value); */}
-                {/*     }} */}
-                {/*     onFocus={() => setIsFocused(true)} */}
-                {/*     onBlur={() => setIsFocused(false)} */}
-                {/* /> */}
               </div>
             </div>
           )}
