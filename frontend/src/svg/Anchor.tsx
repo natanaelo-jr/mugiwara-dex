@@ -10,6 +10,7 @@ const Anchor: React.FC<Props> = ({
 }) => {
   return (
     <svg
+      color={color}
       width={size}
       height={size}
       viewBox="0 0 512 512" // Mantenha o viewBox original do SVG

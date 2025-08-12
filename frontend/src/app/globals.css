@@ -14,6 +14,8 @@
   --font-pirate: var(--font-bebas-neue);
   --font-op: var(--font-op);
   --font-oswald: var(--font-oswald);
+  --font-century: var(--font-century-old-style);
+  --font-tnr: var(--font-tn-roman);
 }
 
 :root {

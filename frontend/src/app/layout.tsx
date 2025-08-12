@@ -29,6 +29,18 @@ const opfont = localFont({
   display: "swap",
 });
 
+const centuryOldStyle = localFont({
+  src: "../../public/fonts/century-old-style.otf",
+  variable: "--font-century-old-style",
+  display: "swap",
+});
+
+const tnRoman = localFont({
+  src: "../../public/fonts/tn-roman.ttf",
+  variable: "--font-tn-roman",
+  display: "swap",
+});
+
 export const metadata = {
   title: "Mugiwara Dex",
   description: "Um app compêndio de One Piece",
@@ -47,7 +59,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${inter.variable} ${oswald.variable} ${bebas_neue.variable} ${opfont.variable} antialiased w-screen h-screen flex flex-col`}
+        className={`${inter.variable} ${tnRoman.variable} ${oswald.variable} ${bebas_neue.variable} ${opfont.variable} ${centuryOldStyle.variable} antialiased w-screen h-screen flex flex-col`}
       >
         <QueryProvider>{children}</QueryProvider>
         <Toaster />
