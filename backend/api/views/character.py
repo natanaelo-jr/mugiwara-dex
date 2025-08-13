@@ -12,21 +12,27 @@ from rest_framework import filters
 class PirateViewSet(viewsets.ModelViewSet):
     queryset = Pirate.objects.all()
     serializer_class = PirateSerializer
-    filter_backends = [filters.SearchFilter]
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ["name"]
+    ordering_fields = ["name", "bounty"]
+    ordering = ["name"]
 
 
 class MarineViewSet(viewsets.ModelViewSet):
     queryset = Marine.objects.all()
     serializer_class = MarineSerializer
-    filter_backends = [filters.SearchFilter]
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ["name", "rank"]
+    ordering_fields = ["name", "rank"]
+    ordering = ["name"]
 
 
 class CharacterListView(ListAPIView):
     serializer_class = CharacterUnionSerializer
     search_fields = ["name"]
-    filter_backends = []
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
+    ordering_fields = ["name"]
+    ordering = ["name"]
 
     def get_queryset(self):
         pirates = list(Pirate.objects.all())
@@ -46,6 +52,7 @@ class CharacterListView(ListAPIView):
         obs_haki = params.get("observation_haki")
         arm_haki = params.get("armament_haki")
         conq_haki = params.get("conqueror_haki")
+        ordering = params.get("ordering", "name")  # padrão "name"
 
         def to_bool(val):
             return val.lower() in ["true", "1", "yes"] if val else None
@@ -67,5 +74,9 @@ class CharacterListView(ListAPIView):
             if conq_haki is not None and obj.conqueror_haki != conq_haki:
                 continue
             filtered.append(obj)
+
+        ordering_param = ordering.lstrip("-")
+        reverse = ordering.startswith("-")
+        filtered.sort(key=lambda x: getattr(x, ordering_param) or "", reverse=reverse)
 
         return filtered
